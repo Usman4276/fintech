@@ -2,7 +2,15 @@ const express = require("express");
 const router = express.Router();
 
 //Controllers
-const userLogin = require("../controllers/user");
+const {
+  userLogin,
+  userSignup,
+  userLogout,
+  getUserData,
+} = require("../controllers/user");
+
+//Middlewares
+const verifySession = require("../middlewares/");
 
 //-----Home Route------
 router.get("/", (req, res) => {
@@ -10,6 +18,10 @@ router.get("/", (req, res) => {
 });
 
 //-----User Routes------
-router.post("/", userLogin);
+router.post("/login", userLogin);
+router.post("/sign-up", userSignup);
+router.get("/logout", userLogout);
+router.get("/verify-user", verifySession);
+router.get("/profile", getUserData);
 
 module.exports = router;
