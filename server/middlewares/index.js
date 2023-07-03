@@ -1,3 +1,5 @@
+const rateLimit = require("express-rate-limit");
+
 const verifySession = (req, res, next) => {
   try {
     if (!req.session.userEmail)
@@ -21,4 +23,12 @@ const verifySession = (req, res, next) => {
   // next();
 };
 
-module.exports = verifySession;
+const rateLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 5,
+  message: "Limit exceeded, Please try again after 1 min",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+module.exports = { verifySession, rateLimiter };

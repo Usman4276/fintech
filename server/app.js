@@ -20,10 +20,10 @@ connectionToMongoDB();
 app.use(morgan("dev")); // logger for logging http requests
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3000", // used for allowing (cross-origin-resource-sharing)
     credentials: true,
   })
-); // used for allowing (cross-origin-resource-sharing)
+);
 app.use(express.json()); // used for parsing incoming requests to json payload
 app.use(
   sessions({
