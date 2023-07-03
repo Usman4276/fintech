@@ -9,7 +9,7 @@ export const Container = styled("div")(() => ({
 
 export const SignupFormContainer = styled("div")(() => ({
   width: "50%",
-  height: "80%",
+  // height: "80%",
   borderRadius: "10px",
   boxShadow: "0px 0px 15px 1px #a9a9a9c7",
 }));

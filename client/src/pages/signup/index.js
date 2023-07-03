@@ -113,7 +113,10 @@ const Signup = () => {
             to={"/"}
             style={{ textDecoration: "none", textAlign: "center" }}
           >
-            <Typography variant="body2" sx={{ cursor: "pointer" }}>
+            <Typography
+              variant="body2"
+              sx={{ cursor: "pointer", marginBottom: "2rem" }}
+            >
               Already have an account
             </Typography>
           </Link>

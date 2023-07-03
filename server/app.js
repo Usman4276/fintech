@@ -31,6 +31,7 @@ app.use(
     cookie: {
       secure: false,
       maxAge: 1000 * 60, // 1 min expiration of session
+      httpOnly: false,
     },
     resave: true,
     saveUninitialized: false,

@@ -55,10 +55,6 @@ const Signin = () => {
     onVerifyUser();
   }, []);
 
-  useEffect(() => {
-    console.log("🚀 ~ file: index.js:61 ~ Signin ~ isCaptcha:", isCaptcha);
-  }, [isCaptcha]);
-
   return (
     <>
       <Container>
