@@ -10,7 +10,7 @@ const {
 } = require("../controllers/user");
 
 //Middlewares
-const verifySession = require("../middlewares/");
+const { verifySession, rateLimiter } = require("../middlewares/");
 
 //-----Home Route------
 router.get("/", (req, res) => {
@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 });
 
 //-----User Routes------
-router.post("/login", userLogin);
+router.post("/login", rateLimiter, userLogin);
 router.post("/sign-up", userSignup);
 router.get("/logout", userLogout);
 router.get("/verify-user", verifySession);

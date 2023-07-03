@@ -23,18 +23,26 @@ const Signin = () => {
 
   //Signin Handler
   const onSigninHandler = async () => {
-    //Validating inputs
-    if (!Input.email || !Input.password) return alert("Empty fields");
-    if (typeof Input.email !== "string" || typeof Input.email !== "string")
-      return alert("Invalid type, should be string");
+    try {
+      //Validating inputs
+      if (!Input.email || !Input.password) return alert("Empty fields");
+      if (typeof Input.email !== "string" || typeof Input.email !== "string")
+        return alert("Invalid type, should be string");
 
-    const result = await instance.post("/api/user/login", {
-      email: Input.email,
-      password: Input.password,
-    });
+      const result = await instance.post("/api/user/login", {
+        email: Input.email,
+        password: Input.password,
+      });
 
-    if (!result.data.success) return alert(result.data.message);
-    navigate("/dashboard");
+      if (!result.data.success) return alert(result.data.message);
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.response.data);
+      setInput({
+        email: "",
+        password: "",
+      });
+    }
   };
 
   const onVerifyUser = () => {
