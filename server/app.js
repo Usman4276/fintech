@@ -3,12 +3,15 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const morgan = require("morgan");
-const { PORT } = require("./config/keys");
 require("dotenv").config();
 const cors = require("cors");
 const connectionToMongoDB = require("./database/mongodb");
 const userRouter = require("./routes/");
 const sessions = require("express-session");
+
+//Environment variables
+const PORT = process.env.PORT;
+const SECERET_KEY = process.env.SECERET_KEY;
 
 //Connection to MongoDB
 connectionToMongoDB();
@@ -24,10 +27,10 @@ app.use(
 app.use(express.json()); // used for parsing incoming requests to json payload
 app.use(
   sessions({
-    secret: "mycustomsecret123!@",
+    secret: SECERET_KEY,
     cookie: {
       secure: false,
-      maxAge: 1000 * 60, //1 min
+      maxAge: 1000 * 60, // 1 min expiration of session
     },
     resave: true,
     saveUninitialized: false,

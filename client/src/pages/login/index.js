@@ -9,6 +9,7 @@ import {
   FieldsContainer,
 } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Signin = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isDisplay, setDisplay] = useState(false);
+  const [isCaptcha, setCaptcha] = useState(false);
 
   //Signin Handler
   const onSigninHandler = async () => {
@@ -45,9 +47,17 @@ const Signin = () => {
     }, 1000);
   };
 
+  const onChangeCaptcha = () => {
+    setCaptcha(true);
+  };
+
   useEffect(() => {
     onVerifyUser();
   }, []);
+
+  useEffect(() => {
+    console.log("🚀 ~ file: index.js:61 ~ Signin ~ isCaptcha:", isCaptcha);
+  }, [isCaptcha]);
 
   return (
     <>
@@ -88,15 +98,25 @@ const Signin = () => {
                   })
                 }
               />
-              <Button variant="contained" onClick={() => onSigninHandler()}>
-                Signin
-              </Button>
+              {/* ---------Re-Captcha-------- */}
+              <ReCAPTCHA
+                sitekey={process.env.REACT_APP_RECAPTCHA_CLIENT_SIDE_KEY}
+                onChange={onChangeCaptcha}
+              />
+              {isCaptcha && (
+                <Button variant="contained" onClick={() => onSigninHandler()}>
+                  Signin
+                </Button>
+              )}
             </FieldsContainer>
             <Link
               to={"/signup"}
               style={{ textDecoration: "none", textAlign: "center" }}
             >
-              <Typography variant="body2" sx={{ cursor: "pointer" }}>
+              <Typography
+                variant="body2"
+                sx={{ cursor: "pointer", marginBottom: "2rem" }}
+              >
                 Don't have an account?
               </Typography>
             </Link>
