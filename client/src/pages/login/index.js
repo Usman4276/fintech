@@ -33,7 +33,8 @@ const Signin = () => {
       password: Input.password,
     });
 
-    if (result.data.success) navigate("/dashboard");
+    if (!result.data.success) return alert(result.data.message);
+    navigate("/dashboard");
   };
 
   const onVerifyUser = () => {

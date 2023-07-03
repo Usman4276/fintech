@@ -38,7 +38,8 @@ const Signup = () => {
       password: Input.password,
     });
 
-    if (result.data.success) navigate("/");
+    if (!result.data.success) return alert(result.data.message);
+    navigate("/");
   };
   return (
     <>

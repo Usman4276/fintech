@@ -9,33 +9,45 @@ async function userLogin(req, res) {
       Validating inputs 
     */
     if (!email || !password)
-      return res
-        .status(404)
-        .send({ success: false, data: null, message: "Empty input fields" });
+      return res.send({
+        status: 404,
+        success: false,
+        data: null,
+        message: "Empty input fields",
+      });
 
     if (typeof email !== "string" || typeof password !== "string")
-      return res.status(404).send({
+      return res.send({
+        status: 404,
         success: false,
         data: null,
         message: "Invalid input data type, it should be string",
       });
 
     const userData = await User.find({ email }, { password: 0 });
-    if (!userData)
-      return res
-        .status(404)
-        .send({ success: false, data: null, message: "User not found" });
+
+    if (!userData.length)
+      return res.send({
+        status: 404,
+        success: false,
+        data: null,
+        message: "User not found",
+      });
 
     /* 
       Session creation
     */
     req.session.userEmail = email;
 
-    res
-      .status(200)
-      .send({ success: true, data: userData, message: "login successfully" });
+    res.send({
+      status: 200,
+      success: true,
+      data: userData,
+      message: "login successfully",
+    });
   } catch (error) {
-    res.status(500).send({
+    res.send({
+      status: 500,
       success: false,
       data: null,
       message: "Server error",
@@ -49,9 +61,12 @@ async function userSignup(req, res) {
   try {
     //Validating inputs
     if (!firstname || !lastname || !email || !password)
-      return res
-        .status(404)
-        .send({ success: false, data: null, message: "Empty input fields" });
+      return res.send({
+        status: 404,
+        success: false,
+        data: null,
+        message: "Empty input fields",
+      });
 
     if (
       typeof firstname !== "string" ||
@@ -59,7 +74,8 @@ async function userSignup(req, res) {
       typeof email !== "string" ||
       typeof password !== "string"
     )
-      return res.status(404).send({
+      return res.send({
+        status: 404,
         success: false,
         data: null,
         message: "Invalid input data type, it should be string",
@@ -68,7 +84,8 @@ async function userSignup(req, res) {
     //Checking for user already registered
     const userData = await User.findOne({ email });
     if (userData)
-      return res.status(404).send({
+      return res.send({
+        status: 404,
         success: false,
         data: null,
         message: "User already registered",
@@ -82,19 +99,22 @@ async function userSignup(req, res) {
       password: await hashPassword(password),
     });
     if (!result)
-      return res.status(404).send({
+      return res.send({
+        status: 404,
         success: false,
         data: null,
         message: "User not created successfully",
       });
 
-    res.status(200).send({
+    res.send({
+      status: 200,
       success: true,
       data: null,
       message: "User created successfully",
     });
   } catch (error) {
-    res.status(500).send({
+    res.send({
+      status: 500,
       success: false,
       data: null,
       message: "Server error",
@@ -108,7 +128,8 @@ async function userLogout(req, res) {
     req.session.destroy();
     res.clearCookie("connect.sid").end();
   } catch (error) {
-    res.status(500).send({
+    res.send({
+      status: 500,
       success: false,
       data: null,
       message: "Server error",
@@ -120,19 +141,22 @@ async function userLogout(req, res) {
 async function getUserData(req, res) {
   try {
     if (!req.session.userEmail)
-      return res.status(200).send({
+      return res.send({
+        status: 200,
         success: false,
         data: null,
         message: "User un-authenticated",
       });
 
     res.send({
+      status: 200,
       success: true,
       data: req.session.userEmail,
       message: null,
     });
   } catch (error) {
-    res.status(500).send({
+    res.send({
+      status: 500,
       success: false,
       data: null,
       message: "Server error",
