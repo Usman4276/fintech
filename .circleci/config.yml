@@ -4,6 +4,6 @@ jobs:
     docker:
       - image: cimg/base:2022.05
     steps:
-      - checkout
-          path: "server"
+      - checkout:
+          path: server
       - run: echo "Hello, world!"
