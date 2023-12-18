@@ -5,5 +5,5 @@ jobs:
       - image: cimg/base:2022.05
     steps:
       - checkout
-        path: server
+          path: server
       - run: echo "Hello, world!"
