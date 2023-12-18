@@ -10,7 +10,14 @@ const {
 } = require("../controllers/user");
 
 //Middlewares
-const { verifySession, rateLimiter } = require("../middlewares/");
+const {
+  verifySession,
+  rateLimiter,
+  requestInputsValidator,
+} = require("../middlewares/");
+
+//Request validation schemas
+const { userSignupSchema, userLoginSchema } = require("../schemas/user");
 
 //-----Home Route------
 router.get("/", (req, res) => {
@@ -18,8 +25,13 @@ router.get("/", (req, res) => {
 });
 
 //-----User Routes------
-router.post("/login", rateLimiter, userLogin);
-router.post("/sign-up", userSignup);
+router.post(
+  "/login",
+  rateLimiter,
+  requestInputsValidator(userLoginSchema),
+  userLogin
+);
+router.post("/sign-up", requestInputsValidator(userSignupSchema), userSignup);
 router.get("/logout", userLogout);
 router.get("/verify-user", verifySession);
 router.get("/profile", getUserData);

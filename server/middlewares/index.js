@@ -31,4 +31,29 @@ const rateLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-module.exports = { verifySession, rateLimiter };
+const requestInputsValidator = (schema) => {
+  return (req, res, next) => {
+    const inputs = {
+      ...req.params,
+      ...req.body,
+    };
+    const { error } = schema.validate(inputs);
+    if (error) res.status(404).send(error.message);
+    next();
+  };
+};
+
+class CustomError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.name = this.constructor.name;
+    this.statusCode = statusCode;
+  }
+}
+
+module.exports = {
+  verifySession,
+  rateLimiter,
+  requestInputsValidator,
+  CustomError,
+};
