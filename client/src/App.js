@@ -5,7 +5,6 @@ import Dashboard from "./pages/dashboard";
 import { useCookies } from "react-cookie";
 
 function App() {
-  // Seetting cookies
   const [cookies] = useCookies(["connect.sid"]);
   return (
     <>
